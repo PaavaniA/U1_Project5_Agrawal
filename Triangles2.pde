@@ -2,20 +2,20 @@ PVector location;
 PVector velocity;
 int blackCircleX;
 int blackCircleY;
-int amount = 70;
-int distance = 60;
-Ball[] Red = new Ball[amount];
+int amount = 90;
+int distance = 30;
+Ball[] Dot = new Ball[amount];
 
 void setup()
 {
   blackCircleX = width/2;
   blackCircleY = height/2;
-  fullScreen();
+  size(800,800,P2D);
   background(255);
 
   for (int i = 0; i < amount; i++)
   {
-    Red[i] = new Ball(new PVector(width/2+random(-50, 50), (height/2+random(-50, 50))), new PVector(random(0, 3), random(0, 3)));
+    Dot[i] = new Ball(new PVector(width/2+random(-50, -50), (height/2+random(-50, -50))), new PVector(random(-2, 3), random(-2, 3)));
   }
 }
 
@@ -26,29 +26,41 @@ void draw()
 
   for (int i = 0; i < amount; i++)
   {
-    Red[i].Draw();
-    Red[i].Add();
-    Red[i].BounceBack();
+    Dot[i].Draw();
+    Dot[i].Add();
+    Dot[i].BounceBack();
   }
-
   Collision();
 }
 
 void Collision()
 {
-    for (int i = 0; i < amount; i++)
+  for (int i = 0; i < amount; i++)
+  {
+    for (int j = i+1; j < amount; j++)
     {
-      for (int j = 0; j < amount; j++)
+      if (i!=j)
       {
-        if (i!=j)
+        float dist = dist(Dot[i]._location.x, Dot[i]._location.y, Dot[j]._location.x, Dot[j]._location.y);
+        if (dist < distance*2)
         {
-          float dist = dist(Red[i]._location.x, Red[i]._location.y, Red[j]._location.x, Red[j]._location.y);
-          if(dist < distance)
+          stroke(255, 50);
+          line(Dot[i]._location.x, Dot[i]._location.y, Dot[j]._location.x, Dot[j]._location.y);
+
+          for (int k = j+1; k < amount; k++)
           {
-            stroke(255);
-            line(Red[i]._location.x, Red[i]._location.y, Red[j]._location.x, Red[j]._location.y);
+            {
+              if (j!=k)
+                dist(Dot[j]._location.x, Dot[j]._location.y, Dot[k]._location.x, Dot[k]._location.y);
+              if (dist(Dot[j]._location.x, Dot[j]._location.y, Dot[k]._location.x, Dot[k]._location.y) < distance*3)
+              {
+                stroke(255, 50);
+                line(Dot[j]._location.x, Dot[j]._location.y, Dot[k]._location.x, Dot[k]._location.y);
+              }
+            }
           }
         }
       }
     }
   }
+}

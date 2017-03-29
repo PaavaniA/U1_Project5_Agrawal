@@ -24,7 +24,7 @@ class Ball
 
  public  void BounceBack()
    {
-      if (dist(_location.x, _location.y, blackCircleX, blackCircleY)>240)
+      if (dist(_location.x, _location.y, blackCircleX, blackCircleY)>250)
       {
         _velocity.mult(-1);
       }
